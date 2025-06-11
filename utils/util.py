@@ -44,8 +44,9 @@ def prepare_device(n_gpu_use):
     return device, list_ids
 
 class MetricTracker:
-    def __init__(self, *keys, writer=None):
+    def __init__(self, *keys, writer=None, n_gpus=0):
         self.writer = writer
+        self.n_gpus = n_gpus
         self._data = pd.DataFrame(index=keys, columns=['total', 'counts', 'average'])
         self.reset()
 
@@ -56,7 +57,7 @@ class MetricTracker:
     def update(self, key, value, n=1):
         if self.writer is not None:
             self.writer.add_scalar(key, value)
-        if isinstance(value, torch.Tensor):
+        if isinstance(value, torch.Tensor) and self.n_gpus == 0:
             value = value.detach().cpu().item()
         self._data.loc[key, "total"] += value * n
         self._data.loc[key, "counts"] += n
