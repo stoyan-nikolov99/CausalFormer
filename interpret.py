@@ -11,6 +11,7 @@ from evaluator.evaluator import evaluate, getextendeddelays, evaluatedelay
 from utils import prepare_device
 from sklearn.cluster import KMeans
 from packaging import version
+from pathlib import PosixPath
 
 HAS_ADD_SAFE_GLOBALS = False
 if version.parse(torch.__version__) >= version.parse("2.6.0"):
