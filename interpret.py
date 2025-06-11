@@ -10,6 +10,9 @@ from explainer.explainer import RRP
 from evaluator.evaluator import evaluate, getextendeddelays, evaluatedelay
 from utils import prepare_device
 from sklearn.cluster import KMeans
+from torch.serialization import add_safe_globals
+
+add_safe_globals([ConfigParser])
 
 # fix random seeds for reproducibility
 SEED = 123
