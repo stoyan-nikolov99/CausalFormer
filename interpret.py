@@ -12,11 +12,10 @@ from utils import prepare_device
 from sklearn.cluster import KMeans
 from packaging import version
 
+HAS_ADD_SAFE_GLOBALS = False
 if version.parse(torch.__version__) >= version.parse("2.6.0"):
     from torch.serialization import add_safe_globals
-    HAS_ADD_SAFE_GLOBALS = True
-else:
-    HAS_ADD_SAFE_GLOBALS = False
+    HAS_ADD_SAFE_GLOBALS = True    
 
 # fix random seeds for reproducibility
 SEED = 123
