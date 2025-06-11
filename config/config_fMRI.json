@@ -16,7 +16,7 @@
         "type": "TimeseriesDataLoader",
         "args": {
             "data_dir": "data/fMRI/timeseries4.csv",
-            "batch_size": 16,
+            "batch_size": 128,
             "time_step": 32,
             "output_window": 31,
             "feature_dim": 1,
