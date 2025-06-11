@@ -49,7 +49,7 @@ def load_model(path, args, name='Causality Detecting', run_id=None):
     model = model.to(device)
     if len(device_ids) > 1:
         model = torch.nn.DataParallel(model, device_ids=device_ids)
-    checkpoint_path = None
+    checkpoint = None
     if HAS_ADD_SAFE_GLOBALS:
         add_safe_globals([ConfigParser])
         checkpoint = torch.load(checkpoint_path, weights_only=True)
