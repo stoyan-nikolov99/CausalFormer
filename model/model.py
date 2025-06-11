@@ -328,6 +328,8 @@ class MultiHeadAttention(BaseModel):
         out = out.reshape(-1, self.n_head, self.series_num * self.input_window, self.feature_dim)
         out = self.concat(out)
         out = out.reshape(-1, self.series_num, self.input_window, self.n_head * self.feature_dim)
+        print("out.shape:", out.shape)
+        print("device:", out.device)
         out = self.w_concat(out)
         return out
         # [batch_size, series_num, input_window, feature_dim]
