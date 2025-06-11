@@ -56,7 +56,7 @@ def load_model(path, args, name='Causality Detecting', run_id=None):
         checkpoint = torch.load(checkpoint_path, weights_only=True)
     else:
         # Fallback: load without weights_only or raise error
-        checkpoint = torch.load(checkpoint_path, weights_only=False)
+        checkpoint = torch.load(checkpoint_path)
     model.load_state_dict(checkpoint['state_dict'])
     return model, config, data_loader
     
