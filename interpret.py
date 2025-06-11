@@ -51,7 +51,7 @@ def load_model(path, args, name='Causality Detecting', run_id=None):
         model = torch.nn.DataParallel(model, device_ids=device_ids)
     checkpoint = None
     if HAS_ADD_SAFE_GLOBALS:
-        add_safe_globals([ConfigParser])
+        add_safe_globals([ConfigParser, PosixPath])
         checkpoint = torch.load(checkpoint_path, weights_only=True)
     else:
         # Fallback: load without weights_only or raise error
