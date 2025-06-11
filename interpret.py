@@ -10,9 +10,13 @@ from explainer.explainer import RRP
 from evaluator.evaluator import evaluate, getextendeddelays, evaluatedelay
 from utils import prepare_device
 from sklearn.cluster import KMeans
-from torch.serialization import add_safe_globals
+from packaging import version
 
-add_safe_globals([ConfigParser])
+if version.parse(torch.__version__) >= version.parse("2.6.0"):
+    from torch.serialization import add_safe_globals
+    HAS_ADD_SAFE_GLOBALS = True
+else:
+    HAS_ADD_SAFE_GLOBALS = False
 
 # fix random seeds for reproducibility
 SEED = 123
@@ -46,7 +50,13 @@ def load_model(path, args, name='Causality Detecting', run_id=None):
     model = model.to(device)
     if len(device_ids) > 1:
         model = torch.nn.DataParallel(model, device_ids=device_ids)
-    checkpoint = torch.load(checkpoint_path)
+    checkpoint_path = None
+    if HAS_ADD_SAFE_GLOBALS:
+        add_safe_globals([ConfigParser])
+        checkpoint = torch.load(checkpoint_path, weights_only=True)
+    else:
+        # Fallback: load without weights_only or raise error
+        checkpoint = torch.load(checkpoint_path, weights_only=False)
     model.load_state_dict(checkpoint['state_dict'])
     return model, config, data_loader
     
